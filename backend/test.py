@@ -1,0 +1,5 @@
+number = int(input())
+a = str(bin(number))
+b = str(hex(number))
+print(a+','+b)
+hash()
