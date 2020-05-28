@@ -22,8 +22,9 @@ class User():
         sql = "select id, name, password from admins where name ='{}'".format(name_or_token)
         cursor = db.cursor()
         cursor.execute(sql)
-        if cursor.fetchall():
-            temp = cursor.fetchall()[0]
+        result = cursor.fetchall()
+        if result:
+            temp = result[0]
             self.id = temp[0]
             self.name = temp[1]
             self.password = temp[2]

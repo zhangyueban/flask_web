@@ -7,7 +7,6 @@ database = 'data.sqlite'
 def get_db():
     if "db" not in g:
         g.db = sqlite3.connect(database)
-        g.db.row_factory = sqlite3.Row
     return g.db
 
 def close_db(e=None):
