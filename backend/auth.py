@@ -1,4 +1,4 @@
-from flask import Blueprint,g, jsonify,request
+from flask import Blueprint,g, jsonify,request, make_response
 from flask_httpauth import HTTPBasicAuth
 import re
 from db import get_db
@@ -90,3 +90,7 @@ def set_auth_pwd():
         return jsonify({'code': 200, 'msg': "密码修改成功"})
     else:
         return jsonify({'code': 500, 'msg': "请检查输入"})
+
+@http_auth.error_handler
+def unauthorized():
+    return make_response(jsonify({'error': 'Unauthorized access'}), 401)

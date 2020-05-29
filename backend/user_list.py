@@ -51,3 +51,33 @@ def get_user_list():
         'page_size': page_size,
         'infos': ans
     })
+
+@user_list.route('/api/user/remove', methods=['GET'])
+@http_auth.login_required
+def remove_user():
+    remove_id = request.args.get('id', type=int)
+    if remove_id:
+        db = get_db()
+        cursor = db.cursor()
+        sql = "delete from joininfos where id = {}".format(remove_id)
+        cursor.execute(sql)
+        db.commit()
+        return jsonify({'code': 200, 'msg': "删除成功"})
+    else:
+        return jsonify({'code': 500, 'msg': "未知错误"})
+
+@user_list.route('/api/user/bathremove', methods=['GET'])
+@http_auth.login_required
+def bathremove_user():
+    remove_ids = request.args.get('ids',type=str)
+    remove_ids = tuple(eval(remove_ids))
+    print(remove_ids)
+    if remove_ids:
+        db = get_db()
+        cursor = db.cursor()
+        sql = "delete from joininfos where id in {}".format(remove_ids)
+        cursor.execute(sql)
+        db.commit()
+        return jsonify({'code': 200, 'msg': "删除成功"})
+    else:
+        return jsonify({'code': 500, 'msg': "未知错误"})
