@@ -34,4 +34,25 @@ def getdrawPieChart():
 @chart.route('/api/getdrawLineChart', methods=['GET'])
 @http_auth.login_required
 def getdrawLineChart():
-     pass #TODO
+    Infos = user_query()
+    profess_value = set()
+    grade_value = set()
+    grade_data = dict()
+    for i in Infos:
+        profess_value.add(i[3])
+        grade_value.add(i[4])
+    profess_value = list(profess_value)
+    grade_value = list(grade_value)
+    for i in grade_value:
+        grade_data[i] = [0] *len(profess_value)
+    for i in Infos:
+        for grade in grade_value:
+            for profess_num in range(len(profess_value)):
+                if i[3] == profess_value[profess_num] and i[4] == grade:
+                    grade_data[grade][profess_num] += 1
+    
+    return jsonify({'code': 200, 'profess_value': profess_value, 'grade_value': grade_value, 'grade_data': grade_data})
+
+
+
+
